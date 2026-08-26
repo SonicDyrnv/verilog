@@ -1,0 +1,53 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date: 21.08.2026 15:39:14
+// Design Name: 
+// Module Name: tb_CSA_16bit
+// Project Name: 
+// Target Devices: 
+// Tool Versions: 
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
+module tb_CSA_16bit;
+reg [15:0] a,b;
+wire [15:0] sum;
+reg cin;
+wire cout;
+integer i;
+
+CSA_16bit dut(.a(a),.b(b),.cin(cin),.sum(sum),.cout(cout));
+
+initial begin
+a=16'h0000;b=16'h0000;cin=0;
+#5;
+a=16'h0001;b=16'h0001;
+#5;
+a=16'h0010;b=16'h0100;cin=1;
+#5;
+a=16'h0040;b=16'h0030;cin=1;
+#10
+for(i=0; i<20;i=i+1) begin
+    #5;
+    cin=~cin;
+    a=a+4'b0101;
+    b=b+4'b1010;
+end
+#10;
+    a=16'b1111_1111_1111_1111;
+    b=16'b1111_1111_1111_1111;
+#10;
+$finish;
+end
+
+endmodule
